@@ -19,6 +19,110 @@ knitr::opts_chunk$set(tidy = FALSE,
 
 ```
 
+## Lendo os dados
+
 ```{r read}
 cg_vs_jp = read_projectdata()
+glimpse(cg_vs_jp)
+
 ```
+```{r}
+skimr::skim(cg_vs_jp)
+```
+
+## Algumas perguntas
+
+* Qual a diferença entre temperaturas mínimas e máximas ao longo do tempo entre Campina Grande e João Pessoa?*
+
+* Qual a diferença entre temperaturas mínimas ao longo do tempo entre Campina Grande e João Pessoa?
+
+* Qual a diferença entre a média de chuva ao longo do tempo entre Campina Grande e João Pessoa?
+
+* Qual foi o mês de Junho (Período do São João) mais frio em Campina Grande ao longo dos anos? 
+
+* Qual a Relação entre o nível de chuvas e temperaturas máximas registradas a longo do ano de 2018 em Campina Grande e João Pessoa?
+
+## Algumas respostas 
+
+*Qual a diferença entre temperaturas mínimas e máximas ao longo do tempo entre Campina Grande e João Pessoa?*
+
+obs: foram removidos dados sobre temperaturas de João Pessoa dos anos anteriores a 1993, devido a ausência de dados desses anos em Campina Grande.
+
+```{r}
+cg_vs_jp %>% 
+     #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(ano > 1992)  %>%
+    group_by(ano, cidade) %>%
+    summarize(tmedianano = median(tmedia)) %>%
+    ggplot(aes(x = ano, y = tmedianano)) +
+    geom_point(aes(color = tmedianano)) +
+    scale_colour_gradient2(low = "blue", mid = "green" , high = "red", midpoint = 25) + 
+    geom_smooth(color = "blue",size = 0.8) +
+    ggtitle ("Daily average temperature") +
+    xlab("Date") +  ylab ("temperatura média ( ºC )") +
+    facet_grid(cidade ~ .) 
+
+
+```
+
+*Diferença entre temperaturas mínimas e máximas ao longo do tempo entre Campina Grande e João Pessoa?*
+
+obs: foram removidos dados sobre temperaturas de João Pessoa dos anos anteriores a 1993, devido a ausência de dados desses anos em Campina Grande.
+
+```{r}
+cg_vs_jp %>% 
+     #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(ano > 1992)  %>%
+    group_by(ano, cidade) %>%
+    summarize(tminano = min(tmin), tmaxano = max(tmax)) %>%
+    ggplot() + 
+    geom_point(aes(x = ano, y = tmaxano, color='máxima')) + geom_line(aes(x = ano, y = tmaxano, color='máxima')) +
+    geom_point(aes(x = ano, y = tminano, color='mínima')) + geom_line(aes(x = ano, y = tminano, color='mínima')) +
+    facet_grid(cidade ~ .) + 
+    xlab("ano") + 
+    ylab("temperatura")
+```
+*Diferença entre a média de chuva ao longo do tempo entre Campina Grande e João Pessoa?
+
+```{r}
+cg_vs_jp %>% 
+     #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(ano > 1992)  %>%
+    group_by(ano, cidade) %>%
+    summarize(chuvamediaano = mean(chuva)) %>%
+    ggplot(aes(x = ano, y = chuvamediaano, color = cidade)) + 
+    geom_area(aes(fill = cidade)) +
+    xlab("ano") + 
+    ylab("média de chuvas") +
+    facet_grid(cidade ~ .) 
+```
+
+Qual foi o mês de Junho (Período do São João) mais frio em Campina Grande ao longo dos anos? 
+
+```{r}
+cg_vs_jp %>% 
+     #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(mes == 06, cidade == 'Campina Grande')  %>%
+    group_by(mes, ano, cidade) %>%
+    summarize(tminmes = min(tmin)) %>%
+    ggplot(aes(x = ano,y = tminmes)) +
+    geom_point( color='#5F9EA0', size=2.7) + geom_line( color='#5F9EA0', size=1) +
+    xlab("Mês de junho ao longo dos anos") +  ylab ("temperatura mínimas (ºC)")
+```
+
+Qual a Relação entre o nível de chuvas e temperaturas máximas registradas a longo do ano de 2018 em Campina Grande e João Pessoa?
+
+```{r}
+
+cg_vs_jp %>% 
+    #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(ano == 2018)  %>%
+    ggplot(aes(x = as.factor(mes), y = tmax)) +
+    geom_boxplot(fill = "orange") +
+    geom_point(aes(size = chuva), colour = "#1a53ff", position = "jitter", alpha=0.3) +
+    facet_grid(cidade ~ .) +
+    xlab("mês") +  ylab ("temperatura ( ºC )")
+```
+
+
+
