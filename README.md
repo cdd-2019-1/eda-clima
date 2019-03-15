@@ -1,7 +1,7 @@
 # EDA de dados de temperatura e chuvas em um lugar
 
 
-Análise exploratória dos registros de temperaturas máximas e mínimas e níveis de chuvas dos municípios de Campina Grande e João Pessoa durante o período de 01/01/1988 até os dias atuais. Os dados originais vem do Banco de Dados Meteorológicos para Ensino e Pesquisa [Banco de Dados Meteorológicos para Ensino e Pesquisa](http://www.inmet.gov.br/projetos/rede/pesquisa/)
+Análise exploratória dos registros de temperaturas médias, máximas e mínimas e níveis de chuvas dos municípios de Campina Grande e João Pessoa durante o período de 01/01/1988 até os dias atuais. Os dados originais vem do Banco de Dados Meteorológicos para Ensino e Pesquisa [Banco de Dados Meteorológicos para Ensino e Pesquisa](http://www.inmet.gov.br/projetos/rede/pesquisa/)
  (BDMEP) que tem como objetivo apoiar as atividades de ensino e pesquisa e outras aplicações em meteorologia, hidrologia, recursos hídricos, saúde pública, meio ambiente, etc. 
  
 Para obtenção dos dados utilizados é necessário a criação de uma conta em [http://www.inmet.gov.br/projetos/rede/pesquisa/cad_senha.php](http://www.inmet.gov.br/projetos/rede/pesquisa/cad_senha.php)
