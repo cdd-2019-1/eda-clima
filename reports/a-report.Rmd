@@ -9,7 +9,7 @@ theme: sandstone
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(here)
-source(here("code/lib.R"))
+source(here::here("code/lib.R"))
 theme_set(theme_bw())
 
 knitr::opts_chunk$set(tidy = FALSE,
@@ -24,27 +24,27 @@ knitr::opts_chunk$set(tidy = FALSE,
 ```{r read}
 cg_vs_jp = read_projectdata()
 glimpse(cg_vs_jp)
-
 ```
+
 ```{r}
 skimr::skim(cg_vs_jp)
 ```
 
 ## Algumas perguntas
 
-* Qual a diferença entre temperaturas mínimas e máximas ao longo do tempo entre Campina Grande e João Pessoa?*
+* Qual é a média de temperatura em Campina Grande e João Pessoa ao longo do tempo?*
 
-* Qual a diferença entre temperaturas mínimas ao longo do tempo entre Campina Grande e João Pessoa?
+* Como se comporta as temperaturas máximas e mínimas ao longo do tempo em Campina Grande e João Pessoa?
 
-* Qual a diferença entre a média de chuva ao longo do tempo entre Campina Grande e João Pessoa?
+* Qual das duas cidades teve maior volume médio de chuva ao longo dos anos?
 
-* Qual foi o mês de Junho (Período do São João) mais frio em Campina Grande ao longo dos anos? 
+* Qual foi o mês de Junho (mês do São João) mais frio em Campina Grande nos últimos anos? 
 
-* Qual a Relação entre o nível de chuvas e temperaturas máximas registradas a longo do ano de 2018 em Campina Grande e João Pessoa?
+* Qual a Relação entre o nível de chuva e a temperatura máxima registrada ao longo do ano de 2018 em Campina Grande e João Pessoa?
 
 ## Algumas respostas 
 
-*Qual a diferença entre temperaturas mínimas e máximas ao longo do tempo entre Campina Grande e João Pessoa?*
+*Qual é a média de temperatura em Campina Grande e João Pessoa ao longo do tempo?*
 
 obs: foram removidos dados sobre temperaturas de João Pessoa dos anos anteriores a 1993, devido a ausência de dados desses anos em Campina Grande.
 
@@ -65,7 +65,7 @@ cg_vs_jp %>%
 
 ```
 
-*Diferença entre temperaturas mínimas e máximas ao longo do tempo entre Campina Grande e João Pessoa?*
+*Como se comporta as temperaturas máximas e mínimas ao longo do tempo em Campina Grande e João Pessoa?*
 
 obs: foram removidos dados sobre temperaturas de João Pessoa dos anos anteriores a 1993, devido a ausência de dados desses anos em Campina Grande.
 
@@ -82,7 +82,7 @@ cg_vs_jp %>%
     xlab("ano") + 
     ylab("temperatura")
 ```
-*Diferença entre a média de chuva ao longo do tempo entre Campina Grande e João Pessoa?
+*Qual das duas cidades teve maior volume médio de chuva ao longo dos anos?*
 
 ```{r}
 cg_vs_jp %>% 
@@ -97,7 +97,7 @@ cg_vs_jp %>%
     facet_grid(cidade ~ .) 
 ```
 
-Qual foi o mês de Junho (Período do São João) mais frio em Campina Grande ao longo dos anos? 
+*Qual foi o mês de Junho (mês do São João) mais frio em Campina Grande nos últimos anos?*
 
 ```{r}
 cg_vs_jp %>% 
@@ -110,7 +110,7 @@ cg_vs_jp %>%
     xlab("Mês de junho ao longo dos anos") +  ylab ("temperatura mínimas (ºC)")
 ```
 
-Qual a Relação entre o nível de chuvas e temperaturas máximas registradas a longo do ano de 2018 em Campina Grande e João Pessoa?
+*Qual a Relação entre o nível de chuva e a temperatura máxima registrada ao longo do ano de 2018 em Campina Grande e João Pessoa?*
 
 ```{r}
 
@@ -123,6 +123,4 @@ cg_vs_jp %>%
     facet_grid(cidade ~ .) +
     xlab("mês") +  ylab ("temperatura ( ºC )")
 ```
-
-
 
