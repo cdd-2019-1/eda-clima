@@ -123,4 +123,3 @@ cg_vs_jp %>%
     facet_grid(cidade ~ .) +
     xlab("mês") +  ylab ("temperatura ( ºC )")
 ```
-
