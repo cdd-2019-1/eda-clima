@@ -34,13 +34,13 @@ skimr::skim(cg_vs_jp)
 
 * Qual é a média de temperatura em Campina Grande e João Pessoa ao longo do tempo?*
 
+* Qual a Relação entre o nível de chuva e a temperatura máxima registrada ao longo do ano de 2018 em Campina Grande e João Pessoa?
+
 * Como se comporta as temperaturas máximas e mínimas ao longo do tempo em Campina Grande e João Pessoa?
 
 * Qual das duas cidades teve maior volume médio de chuva ao longo dos anos?
 
 * Qual foi o mês de Junho (mês do São João) mais frio em Campina Grande nos últimos anos? 
-
-* Qual a Relação entre o nível de chuva e a temperatura máxima registrada ao longo do ano de 2018 em Campina Grande e João Pessoa?
 
 ## Algumas respostas 
 
@@ -55,15 +55,38 @@ cg_vs_jp %>%
     group_by(ano, cidade) %>%
     summarize(tmedianano = median(tmedia)) %>%
     ggplot(aes(x = ano, y = tmedianano)) +
-    geom_point(aes(color = tmedianano)) +
-    scale_colour_gradient2(low = "blue", mid = "green" , high = "red", midpoint = 25) + 
-    geom_smooth(color = "blue",size = 0.8) +
-    ggtitle ("Daily average temperature") +
+    geom_jitter(aes(color = tmedianano)) +
     xlab("Date") +  ylab ("temperatura média ( ºC )") +
     facet_grid(cidade ~ .) 
 
+cg_vs_jp %>% 
+     #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(ano > 1992)  %>%
+    group_by(ano, cidade) %>%
+    summarize(tmedianano = median(tmedia)) %>%
+    ggplot(aes(x = ano, y = tmedianano)) +
+    geom_jitter(aes(color = tmedianano)) +
+    scale_colour_gradient2(low = "blue", mid = "green" , high = "red", midpoint = 25) + 
+    geom_smooth(color = "blue",size = 0.8) +
+    xlab("Date") +  ylab ("temperatura média ( ºC )") +
+    facet_grid(cidade ~ .) 
 
 ```
+
+
+*Qual a Relação entre o nível de chuva e a temperatura máxima registrada ao longo do ano de 2018 em Campina Grande e João Pessoa?*
+
+```{r}
+cg_vs_jp %>% 
+    #adiciona filtro para desconsiderar dados com ano inferior a 1993.
+    filter(ano == 2018)  %>%
+    ggplot(aes(x = as.factor(mes), y = tmax)) +
+    geom_boxplot(fill = "orange") +
+    geom_point(aes(size = chuva), colour = "#1a53ff", position = "jitter", alpha=0.3) +
+    facet_grid(cidade ~ .) +
+    xlab("mês") +  ylab ("temperatura ( ºC )")
+```
+
 
 *Como se comporta as temperaturas máximas e mínimas ao longo do tempo em Campina Grande e João Pessoa?*
 
@@ -110,16 +133,3 @@ cg_vs_jp %>%
     xlab("Mês de junho ao longo dos anos") +  ylab ("temperatura mínimas (ºC)")
 ```
 
-*Qual a Relação entre o nível de chuva e a temperatura máxima registrada ao longo do ano de 2018 em Campina Grande e João Pessoa?*
-
-```{r}
-
-cg_vs_jp %>% 
-    #adiciona filtro para desconsiderar dados com ano inferior a 1993.
-    filter(ano == 2018)  %>%
-    ggplot(aes(x = as.factor(mes), y = tmax)) +
-    geom_boxplot(fill = "orange") +
-    geom_point(aes(size = chuva), colour = "#1a53ff", position = "jitter", alpha=0.3) +
-    facet_grid(cidade ~ .) +
-    xlab("mês") +  ylab ("temperatura ( ºC )")
-```
